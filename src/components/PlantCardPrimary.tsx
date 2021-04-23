@@ -25,7 +25,7 @@ export const PlantCardPrimary = ({ data, ...rest }: PlantProps) => {
             <Text style={styles.text}>
                 {data.name}
             </Text>
-        </RectButton >
+        </RectButton>
     )
 }
 
