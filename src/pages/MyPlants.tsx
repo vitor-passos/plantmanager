@@ -17,20 +17,21 @@ export function MyPlants() {
     const [loading, setLoading] = useState(true);
     const [nextWatered, setNextWatered] = useState<string>();
 
-
-    useEffect(() => {
-        async function loadStorageData() {
-            const plantStoraged = await loadPlant();
+    async function loadStorageData() {
+        const plantStoraged = await loadPlant();
+        if (plantStoraged[0]) {
             const nextTime = formatDistance(
                 new Date(plantStoraged[0].dateTimeNotification).getTime(),
                 new Date().getTime(),
                 { locale: pt }
             );
-
             setNextWatered(`Não esqueça de regar a ${plantStoraged[0].name} à ${nextTime}`);
-            setMyPlants(plantStoraged);
-            setLoading(false);
         }
+        setMyPlants(plantStoraged);
+        setLoading(false);
+    }
+
+    useEffect(() => {
         loadStorageData();
     }, [])
 
@@ -46,10 +47,10 @@ export function MyPlants() {
             onPress: async () => {
                 try {
                     await removePlant(plant.id);
-
-                    setMyPlants((oldData) =>
-                        oldData.filter((item) => item.id !== plant.id)
+                    setMyPlants((oldData) => (
+                        oldData.filter((item) => item.id !== plant.id))
                     );
+                    await loadStorageData();
                 } catch (error) {
                     Alert.alert('Não foi possivel remover! 😢')
                 }
@@ -60,34 +61,40 @@ export function MyPlants() {
     return (
         <View style={styles.container}>
             <Header />
-            <View style={styles.spotlight}>
-                <Image
-                    source={waterdrop}
-                    style={styles.spotlightImage}
-                ></Image>
-                <Text style={styles.spotlightText}>
-                    {nextWatered}
+            {myPlants[0] ?
+                <View style={styles.spotlight}>
+                    <Image
+                        source={waterdrop}
+                        style={styles.spotlightImage}
+                    ></Image>
+                    <Text style={styles.spotlightText}>
+                        {nextWatered}
+                    </Text>
+                </View> :
+                <Text style={[styles.plantTitle, styles.plantsEmpty]}>
+                    Cadastre plantinhas pra você cuidar 🌿🌱
+                    </Text>
+            }
+            { myPlants[0] &&
+                <View style={styles.plants}>
+                    <Text style={styles.plantTitle}>
+                        Próximas regadas
                 </Text>
-            </View>
-            <View style={styles.plants}>
-                <Text style={styles.plantTitle}>
-                    Próximas regadas
-                </Text>
-                <FlatList
-                    data={myPlants}
-                    keyExtractor={(item) => String(item.id)}
-                    renderItem={({ item }) => (
-                        <PlantCardSecondary
-                            data={item}
-                            handleRemove={() => {
-                                handleRemove(item)
-                            }} />
-                    )}
-                    showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ flex: 1 }}
-
-                />
-            </View>
+                    <FlatList
+                        data={myPlants}
+                        keyExtractor={(item) => String(item.id)}
+                        renderItem={({ item }) => (
+                            <PlantCardSecondary
+                                data={item}
+                                handleRemove={() => {
+                                    handleRemove(item)
+                                }} />
+                        )}
+                        showsVerticalScrollIndicator={false}
+                        contentContainerStyle={{ flex: 1 }}
+                    />
+                </View>
+            }
         </View>
     )
 }
@@ -128,5 +135,10 @@ const styles = StyleSheet.create({
         color: colors.heading,
         marginVertical: 20
 
+    },
+    plantsEmpty: {
+        flex: 1,
+        marginTop: 70,
+        textAlign: 'center'
     }
 })
