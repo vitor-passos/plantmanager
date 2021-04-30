@@ -1,7 +1,7 @@
 # plantmanager
 <p>
 Esse projeto tem o intuito de gerenciar plantas que possam ter em sua casa, ele utiliza uma api local com plantas pré-cadastradas. </br>  
-Com ele é possível criar uma lista de plantas, e gerar notificações como lembretes de regar as plantas.</p>
+Com ele é possível criar uma lista de plantas, e gerar notificações como lembretes de regar suas plantas.</p>
 
 Esse projeto utiliza o yarn como gerenciador de pacotes </br> 
 ```console 
