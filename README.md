@@ -13,6 +13,7 @@ Entrar no diretório do projeto </br>
 ```console
 yarn add expo-cli
 yarn install
+npm install -g json-server
 ```
 ## Como executar o servidor
 ```console
