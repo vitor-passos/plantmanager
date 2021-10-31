@@ -153,7 +153,8 @@ const styles = StyleSheet.create({
         height: 40,
         justifyContent: 'center',
         paddingBottom: 5,
-        marginLeft: 32,
+        paddingLeft: 30,
+        paddingRight: 30,
         marginVertical: 32
     },
     plants: {

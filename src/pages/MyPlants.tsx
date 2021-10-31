@@ -40,7 +40,7 @@ export function MyPlants() {
 
     function handleRemove(plant: PlantProps) {
         Alert.alert(`Remover`, `Deseja remover a ${plant.name}?`, [{
-            text: 'Não 🙏',
+            text: 'Não 😊',
             style: 'cancel'
         }, {
             text: 'Sim 😢',
@@ -73,13 +73,13 @@ export function MyPlants() {
                 </View> :
                 <Text style={[styles.plantTitle, styles.plantsEmpty]}>
                     Cadastre plantinhas pra você cuidar 🌿🌱
-                    </Text>
+                </Text>
             }
-            { myPlants[0] &&
+            {myPlants[0] &&
                 <View style={styles.plants}>
                     <Text style={styles.plantTitle}>
                         Próximas regadas
-                </Text>
+                    </Text>
                     <FlatList
                         data={myPlants}
                         keyExtractor={(item) => String(item.id)}
